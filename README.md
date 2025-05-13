@@ -11,6 +11,33 @@ This project is hosted using Render's free tier instance. Render's free instance
 - Limited runtime hours per month
 - Lower performance specifications
 
+## Application Functionality
+
+The `app.js` file contains the core functionality of the Solar Quote API:
+
+1. **Quote Request Handling**: Processes solar quote requests through the `/api/send-quote-request` endpoint
+   - Accepts form submissions with customer information
+   - Handles file uploads (such as roof images)
+   - Processes different calculator modes (standard, advanced, assistive)
+
+2. **Email Service**: Uses Nodemailer to send formatted quote requests
+   - Customized email templates for different calculator modes
+   - Attachments support for uploaded files
+   - Configurable recipient and CC addresses
+
+3. **CORS Configuration**: Implements secure Cross-Origin Resource Sharing
+   - Restricts access to specified frontend origins
+   - Handles preflight requests
+   - Configurable through environment variables
+
+4. **Health Monitoring**: Provides health check endpoints
+   - Basic `/` route for simple status checks
+   - Detailed `/health` endpoint with timestamp information
+
+5. **Sleep Prevention**: Implements a `keepAlive` function to prevent Render's free tier from sleeping
+   - Self-pinging mechanism to maintain activity
+   - Configurable through environment variables
+
 ## Environment Variables Setup
 
 The following environment variables need to be configured in the Render dashboard:
@@ -66,6 +93,14 @@ function keepAlive() {
   }, 14 * 60 * 1000); // 14 minutes (in milliseconds)
 }
 ```
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Basic health check and API status |
+| `/health` | GET | Detailed health status with timestamp |
+| `/api/send-quote-request` | POST | Process quote request forms with optional file attachments |
 
 ## Viewing Logs
 
